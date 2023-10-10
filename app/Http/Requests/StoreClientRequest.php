@@ -21,8 +21,14 @@ class StoreClientRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            //
-        ];
+        return \App\Models\Client::$rulesCreate;
     }
+
+
+    // public function attributes(): array
+    // {
+    //     return [
+    //         'first_name' => 'NOMBRE COMPLETO',
+    //     ];
+    // }
 }

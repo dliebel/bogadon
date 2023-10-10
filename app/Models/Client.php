@@ -14,12 +14,25 @@ class Client extends Model
 
     protected $fillable=[
 
-        'firsh_name',
+        'first_name',
         'last_name',
         'address',
         'phone',
     ];
 
+    public static $rulesCreate=[
+        'first_name' => 'required',
+        'last_name' => 'required',
+        'address' => 'required',
+        'phone' => 'required',
+    ];
+
+    public static $rulesUpdate=[
+        'first_name' => 'required',
+        'last_name' => 'required',
+        'address' => 'required',
+        'phone' => 'required',
+    ];
 
     
 

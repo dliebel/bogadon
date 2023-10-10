@@ -5,6 +5,8 @@ import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
+import ActionMessage from '@/Components/ActionMessage.vue';
+import FormSection from '@/Components/FormSection.vue';
 
 
 
@@ -16,7 +18,7 @@ const props = defineProps({
 
 
 const form = useForm({
-    firsh_name:props.client.firsh_name,
+    first_name:props.client.first_name,
     last_name:props.client.last_name,
     address:props.client.address,
     phone:props.client.phone,
@@ -36,94 +38,81 @@ const submit = () =>{
 <template>
      <AppLayout title="Actualizar Cliente">
 
-        <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                Formulario de Actualizacion de clientes
-            </h2>
-        </template>
-
-        <div>
-            <div class="max-w-7xl mx-auto py-10 sm:px-6 lg:px-8">
-                
-                <div>
-                    <h2 class="font-semibold text-xl text-gray-600">Responsive Form</h2>
-                    <p class="text-gray-500 mb-6">Form is mobile responsive. Give it a try.</p>
-
-                    <div class="bg-white rounded shadow-lg p-4 px-4 md:p-8 mb-6">
-                        <div class="grid gap-4 gap-y-2 text-sm grid-cols-1 lg:grid-cols-3">
-                            <div class="text-gray-600">
-                                <p class="font-medium text-lg">Personal Details</p>
-                                <p>Please fill out all the fields.</p>
-                            </div>
-
-                            <div class="lg:col-span-2">
-                                <form @submit.prevent="submit">
-
-                                    <div class="m-4 p-4">
-                                        <InputLabel for="firsh_name" value="Nombre" />
-                                        <TextInput
-                                            id="firsh_name"
-                                            v-model="form.firsh_name"
-                                            type="firsh_name"
-                                            class="mt-1 block w-full"
-                                            required
-                                            autocomplete="current-firsh_name"
-                                        />
-                                        <InputError class="mt-2" :message="form.errors.firsh_name" />
-                                    </div>
-
-                                    <div class="m-4 p-4">
-                                        <InputLabel for="last_name" value="Apellido" />
-                                        <TextInput
-                                            id="last_name"
-                                            v-model="form.last_name"
-                                            type="last_name"
-                                            class="mt-1 block w-full"
-                                            required
-                                            autocomplete="current-last_name"
-                                        />
-                                        <InputError class="mt-2" :message="form.errors.last_name" />
-                                    </div>
-
-                                    <div class="m-4 p-4">
-                                        <InputLabel for="address" value="Direccion" />
-                                        <TextInput
-                                            id="address"
-                                            v-model="form.address"
-                                            type="address"
-                                            class="mt-1 block w-full"
-                                            required
-                                            autocomplete="current-address"
-                                        />
-                                        <InputError class="mt-2" :message="form.errors.address" />
-                                    </div>
-                                    <div class="m-4 p-4">
-                                        <InputLabel for="phone" value="Telefono" />
-                                        <TextInput
-                                            id="phone"
-                                            v-model="form.phone"
-                                            type="phone"
-                                            class="mt-1 block w-full"
-                                            required
-                                            autocomplete="current-phone"
-                                        />
-                                        <InputError class="mt-2" :message="form.errors.phone" />
-                                    </div>
 
 
+        <div class="m-6">
+            <div class="max-w-12xl mx-auto ">
+                <FormSection @submitted="submit">
+                <template #messager>
+                    <Breadcrumb class="-mt-2" :breadcrumbs="migasDePan"/> 
+                    <FlashMessages />
+                </template>
+                <template #title> Editar Cliente</template>
 
-                                    <PrimaryButton class="ml-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                                       Guardar
-                                    </PrimaryButton>
-                                </form>
-                            </div>
-                        </div>
+                <template #description>
+                    Formulario para editar el cliente. Complete los datos requeridos
+
+
+                    <div class="col-span-6 sm:col-span-3 pt-10">
                     </div>
-                </div>
 
-                 
+                </template>
+
+                <template #form> 
+                    <!-- Profile Photo -->
+
                 
+
+                    <!-- Email -->
+                    <div class="col-span-6 sm:col-span-3">
+                        <InputLabel for="first_name" value="Nombre" />
+                        <TextInput id="first_name" type="text" class="mt-1 block w-full" v-model="form.first_name" required />
+                        <InputError :message="form.errors.first_name" class="mt-2" />
+                    </div>
+                    <div class="col-span-6 sm:col-span-3">
+                        <InputLabel for="last_name" value="Apellido" />
+                        <TextInput id="last_name" type="text" class="mt-1 block w-full" v-model="form.last_name" />
+                        <InputError :message="form.errors.last_name" class="mt-2" />
+
+                    </div>
+                
+
+
+
+                    <div class="col-span-6 sm:col-span-2">
+                        <InputLabel for="phone" value="Teléfono " />
+                        <TextInput id="phone" type="number" class="mt-1 block w-full" v-model="form.phone" required/>
+                        <InputError :message="form.errors.phone" class="mt-2" />
+                    </div>
+
+
+
+                    <div class="col-span-6 sm:col-span-6">
+                        <InputLabel for="address" value="Dirección" />
+                        <TextInput id="address" type="text" class="mt-1 block w-full" v-model="form.address" />
+                        <InputError :message="form.errors.address" class="mt-2" />
+                    </div>
+
+                </template>
+
+                <template #actions>
+                    <Link
+                    class="inline-flex items-center px-4 py-2 bg-white border border-gray-300 rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest shadow-sm hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:ring focus:ring-blue-200 active:text-gray-800 active:bg-gray-50 disabled:opacity-25 transition"
+                    :href="route('cliente.index')" style="transition: all 0.15s ease">
+                    <span class="">Cancelar</span>
+                    </Link>
+                    <ActionMessage :on="form.recentlySuccessful" class="mr-3">
+                    Saved.
+                    </ActionMessage>
+
+                    <PrimaryButton :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
+                    Guardar
+                    </PrimaryButton>
+                </template>
+                </FormSection>
             </div>
         </div>
+
+
     </AppLayout>
 </template>

@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreClientRequest;
 use App\Http\Requests\UpdateClientRequest;
 use App\Models\Client;
+use Exception;
+use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 
 class ClientController extends Controller
@@ -41,12 +43,23 @@ class ClientController extends Controller
     public function store(StoreClientRequest $request)
     {
         
-        $input =$request->all();
+        try {
+            $input =$request->all();
 
-        Client::create($input);
+            Client::create($input);
+    
+    
+            return Redirect::route('cliente.index')->with('success','Se ha creado un nuevo cliente');
+    
+        } catch (Exception $e) {
+            return redirect()->back()->withErrors([
+                    'error'=>'Sucedio un error en el servidor' .$e->getMessage()
+            ]);
+        }
 
-        return redirect()->route('cliente.index');
 
+
+    
 
     }
 
@@ -81,18 +94,33 @@ class ClientController extends Controller
     public function update(UpdateClientRequest $request, $id)
     {
 
-        $client= Client::find($id);
+
+          
+        try {
+
+
+            $client= Client::find($id);
         
-        $input =$request->all();
+            $input =$request->all();
+    
+            $client->first_name= $input['first_name'];
+            $client->last_name= $input['last_name'];
+            $client->address= $input['address'];
+            $client->phone= $input['phone'];
+    
+            $client->save();
+    
+    
+    
+            return Redirect::route('cliente.index')->with('success','Se ha editado correctamente el cliente');
+    
+        } catch (Exception $e) {
+            return redirect()->back()->withErrors([
+                    'error'=>'Sucedio un error en el servidor' .$e->getMessage()
+            ]);
+        }
 
-        $client->firsh_name= $input['firsh_name'];
-        $client->last_name= $input['last_name'];
-        $client->address= $input['address'];
-        $client->phone= $input['phone'];
 
-        $client->save();
-
-        return redirect()->route('cliente.index');
 
     }
 
